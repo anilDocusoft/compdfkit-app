@@ -339,6 +339,7 @@ export default function PdfViewerComponent() {
           ]);
         }
       };
+      
       if (latestVersioin.IsLocked) {
         if (DocumentView === 'FullControl') {
           // setToolbarItemsForFullControl();
