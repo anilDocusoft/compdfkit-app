@@ -5,7 +5,7 @@ export const useAuth = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
-        const { agrno, Email, password, ItemId, Guid, VersionId, ViewerToken, DocumentView, TokenCode } = getLocalStorageValues();
+        const { agrno, Email, password, ItemId, DocumentView, TokenCode } = getLocalStorageValues();
         setTimeout(() => {
             if (password && Email && agrno && ItemId && DocumentView) {
                 setIsAuthenticated(true);

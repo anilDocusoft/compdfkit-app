@@ -8,15 +8,18 @@ import {
     Checkbox,
     Typography,
     Box,
+    IconButton,
 } from "@mui/material";
-import { getLocalStorageValues } from "../../utils/localStorage";
+import { encryptAES, getLocalStorageValues } from "../../utils/localStorage";
 import toast from "react-hot-toast";
-import AES from 'crypto-js/aes';
+import CloseIcon from "@mui/icons-material/Close";
+
 const LockDocumentModal = ({ open, onClose, Json_UpdateVersionItem }) => {
 
     const [enableAttachments, setEnableAttachments] = useState(false);
     const [isLinkCopied, setIsLinkCopied] = useState(false);
     const handleCheckboxChange = (event) => {
+        setIsLinkCopied(false)
         setEnableAttachments(event.target.checked);
     };
     const handleSendEmail = () => {
@@ -26,17 +29,26 @@ const LockDocumentModal = ({ open, onClose, Json_UpdateVersionItem }) => {
     };
     const handleCopyLink = () => {
         Json_UpdateVersionItem().then(() => {
-            const { agrno, Email, password, ItemId, Guid, ViewerToken } = getLocalStorageValues();
+            const { agrno, Email, password, ItemId } = getLocalStorageValues();
             let TokenCode = enableAttachments ? "C" : "A";
-            let link = `TokenCode=${TokenCode}&DocumentView=${"limitedAccess"}&agrno=${agrno}&Email=${Email}&password=${password}&ItemId=${ItemId}&Guid=${Guid}&ViewerToken=${ViewerToken}`;
-            const encryptAES = (text, key) => {
-                return AES.encrypt(text, key).toString();
-            };
+            let link = `TokenCode=${TokenCode}&DocumentView=${"limitedAccess"}&agrno=${agrno}&Email=${Email}&password=${password}&ItemId=${ItemId}`;
             const encryptedParams = encryptAES(link, 'password');
             const generatedLink = `http://localhost:3001/?${encryptedParams}`;
             navigator.clipboard.writeText(generatedLink)
                 .then(() => {
                     console.log("Link copied to clipboard:", generatedLink);
+                    toast('Link copied to clipboard', {
+                        position: 'bottom-left',
+                        duration: Infinity,
+                        style: {
+                            background: 'black',
+                            color: '#fff',
+                            padding: '8px',
+                            borderRadius: '8px',
+                            fontSize: '14px',
+                        },
+                        icon: '📋',
+                    });
                     setIsLinkCopied(true);
                     setTimeout(() => {
                         handleConfirmationAlert();
@@ -60,6 +72,18 @@ const LockDocumentModal = ({ open, onClose, Json_UpdateVersionItem }) => {
         <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
             <DialogTitle style={{ textAlign: "start", fontWeight: "bold" }}>
                 Share Form
+                <IconButton
+                    aria-label="close"
+                    onClick={onClose}
+                    sx={{
+                        position: "absolute",
+                        right: 8,
+                        top: 8,
+                        color: (theme) => theme.palette.grey[500],
+                    }}
+                >
+                    <CloseIcon />
+                </IconButton>
             </DialogTitle>
             <DialogContent>
                 <Typography

@@ -19,7 +19,7 @@ import { toast } from "react-hot-toast";
 import { getLocalStorageValues } from "../../utils/localStorage";
 
 const AttachmentModal = ({ open, onClose }) => {
-    const { agrno, Email, password, ItemId, Guid, VersionId, ViewerToken, DocumentView, TokenCode } = getLocalStorageValues();
+    const { agrno, Email, password, ItemId, DocumentView, TokenCode } = getLocalStorageValues();
 
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -165,7 +165,7 @@ const AttachmentModal = ({ open, onClose }) => {
                     variant="contained"
                     color="error"
                     onClick={Json_AddAttachment}
-                    disabled={loading} 
+                    disabled={loading}
                 >
                     {loading ? "Uploading..." : "Submit"}
                 </Button>

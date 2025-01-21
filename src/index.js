@@ -4,7 +4,6 @@ import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Home from './pages/Home';
-import Test from './pages/Test2';
 import ErrorBoundary from './utils/ErrorBoundary';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -13,7 +12,6 @@ root.render(
     <Toaster />
     <Routes>
       <Route path="/" element={<ErrorBoundary><Home /></ErrorBoundary>} />
-      <Route path="/test" element={<ErrorBoundary><Test /></ErrorBoundary>} />
     </Routes>
   </BrowserRouter>
 );
